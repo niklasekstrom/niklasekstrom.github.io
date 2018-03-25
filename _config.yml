@@ -3,6 +3,7 @@ baseurl: "/"
 url: "https://niklasekstrom.github.io"
 twitter_username: niekstrom
 github_username:  niklasekstrom
+repository: niklasekstrom/niklasekstrom.github.io
 
 markdown: kramdown
 theme: minima
