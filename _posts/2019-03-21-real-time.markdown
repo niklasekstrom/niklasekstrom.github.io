@@ -1,0 +1,48 @@
+---
+layout: post
+title:  "Real Time, or What is Time Anyway?"
+date:   2019-03-21 09:00:00 +0200
+---
+In this post I'll write about time from a more fundamental perspective.
+
+Where do we look to get a good understanding of time? Physicists have thought about the issue for a long time. A good overview is the [Feynman lecture](http://www.feynmanlectures.caltech.edu/I_05.html) about time and distance.
+
+We need clocks to reason about time. This may seem a bit problematic, because we need time to reason about clocks, so there is some sort of a circular dependency. It seems that there is no way to fully resolve this problem, so that one thing is more fundamental than the other, at least as far as we can tell at this time. The best recount of this situation that I have seen is [this presentation](https://www.youtube.com/watch?v=q3OXd7mnYJI) by Eran Tal.
+
+So what then is a clock? A clock has two parts: 1. some periodic (physical) process that can be measured, and 2. a counter that is continuously incremented to keep track of the number of periods of the periodic process.
+Examples of such periodic processes are the rotation of the earth around its axis, a swinging pendulum, or the transitions of a Caesium atom.
+We can then relate the rate of one periodic process to the rate of another periodic process.
+
+What if one process speeds up relative to another? In some sense we can't really say if process A is speeding up and process B stays the same, or if process A stays the same and process B is slowing down. However, if we have many different periodic processes A, B, ..., Z, and the rate of A relative to the rates of B, ..., Z changes with the same ratio, and the relative rates of B, ..., Z stays the same, then it may be most convenient to say that the rate of A changed. If the rates of all processes in the universe would change uniformly then there would be no way for us to observe that.
+
+We would prefer to have a clock that we can have multiple copies of, and that can be moved. For a long time we used the rotation of the earth as the periodic process that was the basis for keeping time. This is not ideal for at least two reasons: there is only one earth so it is philosophically difficult to reason about what time it is somewhere else in the galaxy, and also because it turns out that the rotation of the earth is gradually slowing down. A pendulum clock does not have either of these problems, but it is difficult to manufacture pendulum clocks with a very precise frequency.
+
+The periodical process that is used as a reference these days is the hyperfine transitions of a Caesium atom. This is a very stable process that does not slow down or speed up over time, and can be recreated anywhere. However, actually measuring the number of periods of this process is technically very complicated, so most people will not own a Caesium clock. In either case, we can define that in principle, if we could measure the number of periods of this process exactly, then one such period is the rate that we relate all other periodic processes to.
+To make the numbers easier to handle we introduce the *second* as a time unit that equals 9,192,631,770 periods of the periodic process used in a Caesium clock.
+
+We now have a very stable periodic process that can be used as the basis for a clock, at least in principle. Creating such a clock is very challenging, and we shall not go further into how that is done in practice. In theory, we can create ideal clocks that advance with exactly the same rates, and our preferred unit of time (the second) is defined based on the periodic process that drives this clock.
+
+## Synchronization
+
+As we have multiple ideal clocks then we may wish to synchronize those clocks. To start, the value of one of the clocks is set arbitrarily; for example, it could be set to any particular value at some particular event that occurred where that clock was located. Then we should synchronize the values of all other clocks to that clock. Doing that is complicated a bit by the theory of relativity.
+
+To start reasoning about synchronized clocks, we should assume that there is no gravity, and all clocks are at rest relative to each other. In that case, we can synchronize clocks as follows. Assume that there are two clocks, C and C', and C is the one whose starting value was set arbitrarily. Our goal is to set the value of C' so that they are synchronized. Lets say the distance between them is L, and then at some point in time the value t is read from C and immediately after a signal is sent with some particular speed (i.e. the speed of light *c*) to C' that contains the value t. When that signal is received by C' it sets its value to t + L/c. These two clocks are now synchronized. We then repeat this procedure for all clocks.
+
+Now imagine that there infinitely many such synchronized ideal clocks, that are located at every point in space. If an event occur at a some point in space, then we can look at the clock at that position to see at what time that event occurred. No matter at what position you are you can look at your synchronized ideal clock to immediately tell time.
+
+## Relativity
+
+If we take relativity into account then things become more complicated. In general, relativity is not relevant for distributed systems that we consider.
+
+In any case, let's consider special relativity, and think of a situation where there are two frames of reference F and F' that are in motion relative to the other. Within each frame there are lattices (grids) of synchronized ideal clocks as described before; i.e. in frame F there is a lattice of synchronized ideal clocks that are in rest relative to F, and similarly for F', but as F and F' are moving relative to each other the clocks in F are moving relative to the clocks in F'.
+
+If an observer in F is reading the clocks in F' the observer in F will notice that the clocks in F' are advancing more slowly than the clocks in F. This effect is known as *time dilation*.
+An important consequence of this is that clocks in F and F' cannot be synchronized, as only clocks that advance at the same rates can be synchronized. The way to handle this situation is to use a relativistic transformation (i.e. the [Lorentz transformation](https://en.wikipedia.org/wiki/Lorentz_transformation) in special relativity) to transform times observed in one frame to some preferred frame, where times can be compared.
+
+In general relativity we also have to take gravity into account, as the same periodic process will advance at different rates in different gravity potentials. If we are to define real time fully we have to take the gravity potential into account, which can be very complicated in practice. In theory we can choose an altitude and define real time based on an ideal clock at that altitude, and then compensate the reads of ideal clocks at other gravity potentials.
+
+If you want a good introduction to the theory of relativity I can highly recommend this [Coursera course](https://www.coursera.org/learn/einstein-relativity).
+
+## Summary
+
+What to take away from this post is that we can define real time at all points in space, in a way that is free from contradictions, at least in theory. It is a Platonic ideal, and an ideal clock cannot be manufactured in reality. It is however a very useful model that we use to reason about time going forward.
