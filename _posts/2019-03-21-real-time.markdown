@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "Real Time, or What is Time Anyway?"
+tag: [time]
 date:   2019-03-21 09:00:00 +0200
 ---
 In this post I'll write about time from a more fundamental perspective.

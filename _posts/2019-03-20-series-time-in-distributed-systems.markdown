@@ -13,4 +13,13 @@ Note that I will write entries a bit fast and loose, so it is likely that I will
 After reading the series of posts you should hopefully understand how [ICSync](https://github.com/niklasekstrom/icsync/) works, and how it can be used to implement a linearizable partitioned distributed data storage system.
 
 List of entries:
-* [Real Time, or What is Time Anyway?](../../../2019/03/21/real-time.html)
+
+<ul>
+  {% for post in site.posts %}
+    {% if post.tags contains "time" %}
+      <li>
+        <a href="{{ post.url }}">{{ post.title }}</a>
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>
