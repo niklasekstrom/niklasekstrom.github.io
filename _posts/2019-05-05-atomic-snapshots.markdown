@@ -4,17 +4,17 @@ title:  "Atomic Snapshots"
 tag: [time]
 date:   2019-05-05 09:00:00 +0200
 ---
-In this installment I will discuss an interesting problem in distributed computing, which is how to implement *atomic snapshots*. I consider multiple solutions, and show how clocks, and in particular interval clocks, can be used in a particularly efficient solution.
+In this installment I will discuss an interesting problem in distributed computing, which is how to implement *atomic snapshots*. I consider multiple solutions, and show how clocks, and in particular *interval clocks*, can be used in a particularly efficient solution.
 
-I'll describe the problem in a simple setting: a partitioned key-value store (KVS). The KVS runs on many, think hundreds or thousands, of server computers (*servers*). The key space is partitioned across the servers, so that each server stores multiple keys, but each key is assigned to a single server. There are many clients, and they communicate with the servers to access and update the values. The assignment of keys to servers is fixed and known to everyone.
+I'll describe the problem in a simple setting: a partitioned key-value store (KVS). The KVS runs on many, think hundreds or thousands, of server computers (*servers*). The key space is partitioned across the servers, so that each server stores multiple keys, but each key is assigned to a single server. There are many clients, and they communicate with the servers to access and update the values. The assignment of keys to servers is fixed and known to all.
 
 Computers (both clients and servers) are connected in a network, and can communicate only by sending and receiving messages.
 
 ![KVS organization](/assets/kvs_organization.png)
 
-There are some obvious operations that clients can perform:
-* write(key, value) -> () - associate value with key
-* read(key) -> value - returns the value last associated with the key (NULL if no value has been previously associated)
+There are a couple of obvious operations that clients can perform:
+* write(k, v) -> () - associate value v with key k
+* read(k) -> v - returns the value last associated with key k (NULL if no value has been previously associated)
 
 The implementations of these operations are pretty straight forward; a client sends a request message to the server responsible for the key, and the server performs the operation locally and sends a response back to the client.
 
@@ -81,8 +81,8 @@ It is easy to see that this solution will not work correctly. The reason is that
 
 What we need instead is *interval clocks*. An interval clock is different from a normal clock in that an interval clock returns an interval of time instead of a single time value. If an interval clock is read at time *t* then the interval returned is guaranteed to include *t*. An interval clock has two operations:
 
-* upper() - returns the upper bound of the current interval, which is a time that is guaranteed to be greater than the time when the high() operation was invoked.
-* lower() - returns the lower bound of the current interval, which is a time that is guaranteed to be smaller than the time when the low() operation completed.
+* upper() - returns the upper bound of the current interval, which is a time that is guaranteed to be greater than the time when the upper() operation was invoked.
+* lower() - returns the lower bound of the current interval, which is a time that is guaranteed to be smaller than the time when the lower() operation completed.
 
 Using these two interval clock operations, we make changes to the algorithm in solution 2 as follows. To perform a write, the following actions are performed:
 
